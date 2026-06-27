@@ -7,8 +7,12 @@ async function getJson(path, { base = DEFAULT_BASE, timeoutMs = 30_000 } = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
+    const headers = { Accept: 'application/json' };
+    if (process.env.WPGOLDMINE_API_KEY) {
+      headers.Authorization = `Bearer ${process.env.WPGOLDMINE_API_KEY}`;
+    }
     const res = await fetch(`${base}/api/v1${path}`, {
-      headers: { Accept: 'application/json' },
+      headers,
       signal: controller.signal,
     });
 

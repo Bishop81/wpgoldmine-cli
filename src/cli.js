@@ -20,12 +20,15 @@ Search options:
   --min-installs <n>    Minimum active installs.
   --max-installs <n>    Maximum active installs (exclusive).
   --max-rating <r>      Max rating on a 0-100 scale (lower = more dissatisfied users).
+  --limit <n>           Max results (requires WPGOLDMINE_API_KEY; free tier is capped at 10).
 
 Global options:
   --json                Print raw JSON (for scripting / CI). Pipe to jq.
   --base <url>          Override API base (default https://wpgoldmine.io, or $WPGOLDMINE_API_BASE).
   -h, --help            Show this help.
   -v, --version         Show version.
+
+Set WPGOLDMINE_API_KEY (a WP Goldmine account token) to raise the limit and unlock extra fields.
 
 Examples:
   wpgoldmine search --preset abandoned-plugins --niche forms
@@ -91,9 +94,11 @@ async function main() {
       const minInstalls = num(flags['min-installs'], '--min-installs');
       const maxInstalls = num(flags['max-installs'], '--max-installs');
       const maxRating = num(flags['max-rating'], '--max-rating');
+      const limit = num(flags.limit, '--limit');
       if (minInstalls !== undefined) params.min_installs = minInstalls;
       if (maxInstalls !== undefined) params.max_installs = maxInstalls;
       if (maxRating !== undefined) params.max_rating = maxRating;
+      if (limit !== undefined) params.limit = limit;
       const payload = await findOpportunities(params, opts);
       out(payload, renderOpportunities(payload), asJson);
       return;

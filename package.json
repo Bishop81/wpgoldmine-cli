@@ -1,6 +1,6 @@
 {
   "name": "wpgoldmine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI to find WordPress plugin opportunities — abandoned, low-rated, or poorly-supported plugins with large user bases you could replace. Powered by wpgoldmine.io.",
   "license": "MIT",
   "type": "module",

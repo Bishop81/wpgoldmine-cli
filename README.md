@@ -44,6 +44,14 @@ wpgoldmine plugin <slug>           Opportunity snapshot for one plugin.
 | `--base <url>` | Override API base (default `https://wpgoldmine.io`, or `$WPGOLDMINE_API_BASE`). |
 | `-h, --help` / `-v, --version` | Help / version. |
 
+Set `WPGOLDMINE_API_KEY` (a WP Goldmine account token, from your account settings) to raise the result
+limit and unlock extra fields. Without it, the CLI uses the free, capped tier.
+
+```bash
+export WPGOLDMINE_API_KEY=wpg_your_token_here
+wpgoldmine search --preset abandoned-plugins --niche forms --limit 100
+```
+
 ## Examples
 
 ```bash
