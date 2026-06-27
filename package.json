@@ -1,0 +1,36 @@
+{
+  "name": "wpgoldmine",
+  "version": "0.1.0",
+  "description": "CLI to find WordPress plugin opportunities — abandoned, low-rated, or poorly-supported plugins with large user bases you could replace. Powered by wpgoldmine.io.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "wpgoldmine": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node src/cli.js",
+    "smoke": "node src/smoke.js"
+  },
+  "keywords": [
+    "wordpress",
+    "woocommerce",
+    "plugins",
+    "cli",
+    "saas-ideas",
+    "market-research",
+    "indie-hackers",
+    "side-project"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://wpgoldmine.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bishop81/wpgoldmine-cli.git"
+  }
+}
