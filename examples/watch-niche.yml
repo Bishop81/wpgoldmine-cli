@@ -1,0 +1,26 @@
+# Example: a scheduled GitHub workflow that watches a niche for plugin opportunities
+# and uploads the result as an artifact. Copy into .github/workflows/ in your own repo.
+name: Watch plugin opportunities
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Mondays 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - id: forms
+        uses: Bishop81/wpgoldmine-cli@v1
+        with:
+          args: search --preset abandoned-plugins --niche forms
+          output-file: opportunities.json
+
+      - name: Show top result
+        run: cat opportunities.json | jq '.data[0]'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plugin-opportunities
+          path: opportunities.json

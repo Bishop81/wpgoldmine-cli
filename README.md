@@ -68,6 +68,31 @@ Because `--json` is machine-readable, you can wire wpgoldmine into a scheduled j
 wpgoldmine search --preset newest-opportunities --niche ai --json > opportunities.json
 ```
 
+## GitHub Action
+
+This repo also ships a GitHub Action, so you can run the same queries in a workflow without managing
+Node yourself.
+
+```yaml
+- id: opportunities
+  uses: Bishop81/wpgoldmine-cli@v1
+  with:
+    args: search --preset abandoned-plugins --niche forms
+    output-file: opportunities.json
+
+- run: cat opportunities.json | jq '.data[0]'
+```
+
+| Input | Default | Description |
+| --- | --- | --- |
+| `args` | `presets` | Arguments for the CLI, e.g. `search --preset abandoned-plugins --niche forms`. |
+| `json` | `true` | Append `--json` for machine-readable output. |
+| `api-base` | _(prod)_ | Override the API base (`WPGOLDMINE_API_BASE`). |
+| `output-file` | _(none)_ | Also write the output to this path. |
+
+The step output `result` holds the CLI stdout. A full scheduled example is in
+[`examples/watch-niche.yml`](examples/watch-niche.yml).
+
 ## License
 
 MIT

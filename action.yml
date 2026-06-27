@@ -1,0 +1,54 @@
+name: WP Goldmine Plugin Opportunities
+description: Find WordPress plugin opportunities (abandoned, low-rated, or poorly-supported plugins) from CI.
+author: Chris Morris
+branding:
+  icon: search
+  color: orange
+
+inputs:
+  args:
+    description: 'Arguments for the wpgoldmine CLI, e.g. "search --preset abandoned-plugins --niche forms".'
+    required: false
+    default: presets
+  json:
+    description: 'Append --json for machine-readable output (true/false).'
+    required: false
+    default: 'true'
+  api-base:
+    description: 'Override the API base (sets WPGOLDMINE_API_BASE). Defaults to https://wpgoldmine.io.'
+    required: false
+    default: ''
+  output-file:
+    description: 'If set, also write the CLI output to this file path.'
+    required: false
+    default: ''
+
+outputs:
+  result:
+    description: 'The CLI stdout.'
+    value: ${{ steps.run.outputs.result }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - id: run
+      shell: bash
+      env:
+        WPGOLDMINE_API_BASE: ${{ inputs.api-base }}
+      run: |
+        set -euo pipefail
+        JSON_FLAG=""
+        if [ "${{ inputs.json }}" = "true" ]; then JSON_FLAG="--json"; fi
+        OUT="$(npx -y wpgoldmine ${{ inputs.args }} $JSON_FLAG)"
+        echo "$OUT"
+        if [ -n "${{ inputs.output-file }}" ]; then
+          printf '%s\n' "$OUT" > "${{ inputs.output-file }}"
+        fi
+        {
+          echo 'result<<WPGOLDMINE_EOF'
+          printf '%s\n' "$OUT"
+          echo 'WPGOLDMINE_EOF'
+        } >> "$GITHUB_OUTPUT"
